@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\GetPdfController;
+use App\Http\Controllers\TemplateForPdfController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/template-for-pdf', [TemplateForPdfController::class, 'index']);
+
+Route::get('/get-pdf', function () {
+    return view('template-for-pdf-form');
+});
+
+Route::post('/get-pdf', [GetPdfController::class, 'render']);
