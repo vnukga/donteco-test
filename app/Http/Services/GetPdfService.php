@@ -26,9 +26,10 @@ class GetPdfService implements GetPdfServiceInterface
      *
      * @param Request $request
      * @param string $view
+     * @param string $QrCode
      * @return Response
      */
-    public function run(Request $request, string $view) : Response
+    public function run(Request $request, string $view, string $QrCode) : Response
     {
         /**
          * @var $pdf PDF
@@ -39,6 +40,7 @@ class GetPdfService implements GetPdfServiceInterface
             'name'  => $request->name,
             'secondName'  => $request->second_name,
             'date' => $request->date,
+            'QrCode' => $QrCode
         ]);
         return $pdf->download($this->filename);
     }

@@ -17,7 +17,8 @@ interface GetPdfServiceInterface
      *
      * @param Request $request
      * @param string $view
+     * @param string $QrCode
      * @return Response
      */
-    public function run(Request $request, string $view) : Response;
+    public function run(Request $request, string $view, string $QrCode) : Response;
 }

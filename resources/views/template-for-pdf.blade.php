@@ -11,11 +11,15 @@
 
     <style>
         .container {
-            width: 1024px;
+            width: auto;
+        }
+
+        .container-qr {
+            float: right;
         }
 
         .container-title {
-            margin-left: 480px;
+            text-align: center;
         }
 
         .container-name {
@@ -26,6 +30,8 @@
 </head>
 <body class="antialiased">
 <div class="container">
+    <img class="container-qr" src="data:image/svg+xml;base64, {{$QrCode}}"  width="100" height="100" alt=""/>
+
     <h1 class="container-title">Справка</h1>
     <h3>
         Пользователь: <span class="container-name">{{$surname}} {{$name}} {{$secondName}}</span>.
