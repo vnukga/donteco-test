@@ -185,7 +185,12 @@ return [
          * QR Code Generator...
          */
 
-        App\Providers\GetQRCodeServiceProvider::class
+        App\Providers\GetQRCodeServiceProvider::class,
+
+        /*
+         * OAUTH2 Provider...
+         */
+        Laravel\Passport\PassportServiceProvider::class,
     ],
 
     /*

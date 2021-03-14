@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GetPdfController;
 use App\Http\Controllers\TemplateForPdfController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +27,11 @@ Route::get('/get-pdf', function () {
 });
 
 Route::post('/get-pdf', [GetPdfController::class, 'render']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/lorem-ipsum', function(){
+    return json_encode('lorem-ipsum');
+})->middleware('auth:api');
