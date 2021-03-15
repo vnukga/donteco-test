@@ -1,0 +1,229 @@
+openapi: 3.0.0
+info:
+  description: "donteco-test"
+  version: "1.0.0"
+  title: "Donteco Test"
+servers:
+  - url: "http://localhost"
+
+tags:
+  - name: "clients"
+    description: "Работа с клиентами OAuth-сервера"
+  - name: "pdf"
+    description: "Работа с pdf"
+
+
+paths:
+  /oauth/clients:
+    post:
+      tags:
+        - "clients"
+      summary: "Добавить клиента"
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientData"
+      responses:
+        "201":
+          description: "Объект созданного клиента."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+      security:
+        - CookieAuth: []
+  /oauth/authorize:
+    get:
+      tags:
+        - "clients"
+      summary: "Авторизация клиента"
+      parameters:
+        - in: "query"
+          name: "client_id"
+          description: "ID клиента"
+          schema:
+            type: integer
+        - in: "query"
+          name: "redirect_url"
+          description: "Redirect url клиента"
+          schema:
+            type: string
+        - in: "query"
+          name: "response_type"
+          description: "Должен принимать значение code"
+          schema:
+            type: string
+        - in: "query"
+          name: "scope"
+          description: "Разрешения"
+          schema:
+            type: string
+      responses:
+        "301":
+          description: "Редирект на redirect_url клиента"
+
+  /oauth/token:
+    post:
+      tags:
+        - "clients"
+      summary: "Получение токена"
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenData'
+      responses:
+        "200":
+          description: "Объект созданного клиента"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    description: "Токен доступа"
+                  refresh_token:
+                    type: string
+                    description: "Токен обновления"
+                  expires_in:
+                    type: integer
+                    description: "Время действия токена (в секндах)"
+
+  /api/get-pdf-link:
+    post:
+      tags:
+        - "pdf"
+      summary: "Генерация pdf"
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PdfData'
+      responses:
+        "200":
+          description: "Объект созданной записи с pdf-файлом"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PDF'
+      security:
+        - OAuth2: []
+components:
+  securitySchemes:
+    CookieAuth:
+      type: apiKey
+      in: cookie
+      name: laravel_session
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: http://localhost/oauth/authorize
+          tokenUrl: http://localhost/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
+            admin: Grants access to admin operations
+  schemas:
+    ClientData:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        redirect:
+          type: "string"
+    Client:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "ID клиента."
+        name:
+          type: string
+          description: "Название клиента."
+        secret:
+          type: string
+          description: "Секрет клиента."
+        provider:
+          type: string
+          description: "Провайдер для работы с клиентом."
+        redirect:
+          type: string
+          description: "Redirect url клиента"
+        personal_access_client:
+          type: boolean
+          description: "Является ли клиентом с персональным доступом."
+        password_client:
+          type: boolean
+          description: "Запрашивать ли пароль для работы с клиентом."
+        revoked:
+          type: boolean
+          description: "Отозван ли клиент."
+        created_at:
+          type: string
+          description: "Дата создания"
+        updated_at:
+          type: string
+          description: "Дата изменения"
+        user_id:
+          type: integer
+          description: "id пользователя"
+    TokenData:
+      type: object
+      properties:
+        grant_type:
+          description: "Должен принимать значение authorization_code"
+          type: string
+        client_id:
+          description: "ID клиента"
+          type: integer
+        client_secret:
+          description: "Секрет клиента"
+          type: string
+        redirect_uri:
+          description: "Redirect Url клиента"
+          type: string
+        code:
+          description: "Код авторизации, полученный через метод /oauth/authorize."
+          type: string
+    PDF:
+      type: object
+      properties:
+        type:
+          type: string
+          description: "Тип файла"
+        data:
+          type: object
+          description: "Данные созданной записи"
+          properties:
+            id:
+              type: integer
+              description: "ID файла"
+            type:
+              type: string
+              description: "Тип файла"
+            name:
+              type: string
+    PdfData:
+      type: "object"
+      properties:
+        surname:
+          type: "string"
+          description: "Фамилия"
+        name:
+          type: "string"
+          description: "Фамилия"
+        second_name:
+          type: "string"
+          description: "Отчество"
+        date:
+          type: "string"
+          description: "Дата"
