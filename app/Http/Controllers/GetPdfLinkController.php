@@ -47,7 +47,7 @@ class GetPdfLinkController extends Controller
         $filename = $this->getPdfFile($request);
         $file = $this->savePdfFileToDb($filename);
 
-        return json_encode([
+        return response()->json([
             'type' => 'pdf',
             'data' => $file->toArray()
         ]);
