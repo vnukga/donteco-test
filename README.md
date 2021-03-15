@@ -19,10 +19,19 @@
 
 ## Генерация PDF
 
+### Через форму
+
 - Перейти на `<your-host>/get-pdf`.
 - Заполнить данные формы.
 - Нажать "Сгенерировать справку".
 - Шаблон справки можно посмотреть на `<your-host>/template-for-pdf`.
+
+### Через API
+
+- Отправить POST запрос на `<your-host>/api/get-pdf-link` со следующими данными:
+> {"surname":"string","name":"string","second_name":"string","date":"string"}
+- Должен прийти ответ вида:
+> {"type":"pdf", "data": {"type":"pdf","name":"b8ff2b876bb196798eaf698e8572d4dc.pdf","updated_at":"2021-03-15T11:17:19.000000Z","created_at":"2021-03-15T11:17:19.000000Z","id":9,"link":<link>}}
 
 ## Работа с OAuth2-сервером
 
