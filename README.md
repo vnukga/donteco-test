@@ -15,7 +15,7 @@
 > docker-compose exec laravel.test php artisan passport:keys
 - Подготовить фронтенд:
 > npm install && npm run dev
-- Открыть сайт через "http://localhost" или "http://0.0.0.0'.
+- Открыть сайт через "http://localhost:8080".
 
 ## Генерация PDF
 
