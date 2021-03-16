@@ -10,9 +10,9 @@
 - Запустить докер: 
 > ./vendor/bin/sail up --build -d
 - Применить миграции:
-> docker-compose exec laravel.test php artisan migrate --seed
+> docker-compose exec app php artisan migrate --seed
 - Сгенерировать ключи:
-> docker-compose exec laravel.test php artisan passport:keys
+> docker-compose exec app php artisan passport:keys
 - Подготовить фронтенд:
 > npm install && npm run dev
 - Открыть сайт через "http://localhost:8080".
